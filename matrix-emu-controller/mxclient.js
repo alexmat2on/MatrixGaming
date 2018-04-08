@@ -51,5 +51,5 @@ function parseCommands(text) {
   key = defaultKeyMap[text];
   console.log("DA KEY IS: " + key);
   console.log(windowID);
-  exec('xdotool windowactivate ' + windowID + ' && xdotool key ' + key)
+  exec('xdotool windowactivate ' + windowID + ' && xdotool key --delay 250 ' + key)
 }
