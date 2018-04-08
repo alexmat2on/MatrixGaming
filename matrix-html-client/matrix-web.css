@@ -1,0 +1,31 @@
+body {
+    width: 100%;
+}
+
+li {
+    padding: 0;
+    margin: 0;
+}
+
+code {
+  background-color: #dedede;
+}
+
+.matrix-web {
+    width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.timeline-data {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.prompt {
+    width: 100%;
+}
+
+#msg-prompt {
+    width: 100%;
+}
