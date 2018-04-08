@@ -269,6 +269,9 @@ function sync() {
 function displayMessages(timeline) {
     for (var i=0; i < timeline.length; i++) {
         if (timeline[i].type == "m.room.message") {
+            // Parse the message body to see if it contains an emulator command
+            parseCommand(timeline[i].content.body);
+
             // Create a new table row
             var tableRow = "<tr>";
 
@@ -300,6 +303,33 @@ function displayMessages(timeline) {
     }
 }
 
+function parseCommand(text) {
+  switch (text) {
+    case "up":
+    alert("Move emu up!");
+    break;
+
+    case "down":
+    alert("move emu down!");
+    break;
+
+    case "left":
+    alert("Move emu left!");
+    break;
+
+    case "right":
+    alert("Move emu right!");
+    break;
+
+    case "run":
+    exec("emacs &");
+    break;
+
+    default:
+    break;
+  }
+}
+
 function logout() {
     return new Promise ((resolve, reject) => {
         var sendUrl = server + "/_matrix/client/r0/logout?access_token=" + accessToken;
@@ -328,6 +358,7 @@ function startWorker() {
         if (newMessages) {
             getMemberDisplaynames(delSyncData).then((names) => {
                 memberList = names;
+                console.log("WEEEEEE", newMessages.timeline.events);
                 displayMessages(newMessages.timeline.events);
             });
         }
