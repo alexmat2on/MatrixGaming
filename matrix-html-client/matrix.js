@@ -1,23 +1,14 @@
 var user = "";
 var pass = "";
 var server = "http://matrixplaystwitch.com:8008";
-
 var enableIntro = true;
 var ralias = "#random:matrixplaystwitch.com";
-
-var accessToken;
-accessToken = localStorage.accesstoken;
-
-var userID;
-userID = localStorage.userID;
-
+var accessToken = localStorage.accesstoken;
+var userID = localStorage.userID;
 var rid;
-
 var memberList;
-
 var syncData;
 var delSyncData;
-
 var syncWorker;
 
 $(document).ready(function() {
@@ -38,8 +29,12 @@ $(document).ready(function() {
         // introText += "video chat, end-to-end encryption, bots, bridges to ";
         // introText += "other messaging services, and more!</li></ul>";
         // introText += "<br>Finally, if you already have a permanent Matrix ";
-        // introText += "account, you may log into it by typing <code>/login username password</code>";
-        $(".intro").html(introText)
+        // introText += "account, you may log into it by typing <code>/login username password</code>"; 
+        $(".intro").html(introText);
+    } else {
+        var introText = "Welcome back!";
+        introText += "<br><br>Enter <em><code>/connect xyz</code></em> to join the chatroom with the displayname 'xyz'";
+        $(".intro").html(introText);
     }
 
     $(document).bind('keydown',function(e){
@@ -229,6 +224,27 @@ function joinRoom(roomAlias) {
     return new Promise ((resolve, reject) => {
         $.ajax({
             url: server + "/_matrix/client/r0/join/%23" + roomAlias.substring(1) + "?access_token=" + accessToken,
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ }),
+            dataType: "json",
+            success: function(data) {
+                rid = data.room_id;
+                resolve(data);
+                // console.log(data);
+            },
+            error: function(err) {
+                reject(err);
+                console.log(err);
+            }
+        });
+    })
+}
+
+function leaveRoom(roomAlias) {
+    return new Promise ((resolve, reject) => {
+        $.ajax({
+            url: server + "/_matrix/client/r0/leave/%23" + roomAlias.substring(1) + "?access_token=" + accessToken,
             type: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({ }),
